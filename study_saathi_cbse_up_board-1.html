@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Study Saathi | CBSE & UP Board</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f4f7fb;color:#172033;font-family:Arial,"Noto Sans Devanagari",sans-serif;line-height:1.55}
+header{background:linear-gradient(120deg,#14213d,#2563eb);color:#fff;padding:28px 18px}main,.wrap{max-width:1000px;margin:auto}.brand{font-size:13px;letter-spacing:1.5px;opacity:.85}h1{font-size:clamp(28px,5vw,42px);margin:6px 0}.sub{margin:0;color:#e5edff}
+main{padding:20px 15px 45px}.panel{background:white;border:1px solid #e2e8f0;border-radius:16px;padding:17px;margin:0 0 15px;box-shadow:0 5px 18px #0f172a08}
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}select,input{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:11px;background:white;font:inherit;color:#172033}
+label{font-size:13px;font-weight:bold;color:#475569;display:block;margin:0 0 5px}
+h2{font-size:21px;margin:0 0 5px}.muted{color:#64748b;font-size:14px;margin:0 0 14px}
+.subjects{display:flex;flex-wrap:wrap;gap:8px}.subject,.tab{border:1px solid #dbe3ef;background:#fff;border-radius:999px;padding:9px 15px;font-weight:bold;cursor:pointer}.subject.active,.tab.active{background:#2563eb;color:white;border-color:#2563eb}
+.question{border:1px solid #e2e8f0;border-radius:12px;margin:10px 0;overflow:hidden}.question summary{padding:13px 15px;cursor:pointer;font-weight:bold;background:#fbfdff}.answer{padding:0 15px 14px;color:#334155}
+.tag{font-size:12px;background:#eef2ff;color:#3730a3;border-radius:5px;padding:3px 7px;margin-right:7px}
+.note{background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;padding:12px;border-radius:12px;font-size:14px}
+footer{text-align:center;color:#64748b;padding:20px;font-size:13px}.empty{padding:12px;background:#f8fafc;border-radius:10px;color:#475569}
+</style></head>
+<body>
+<header><div class="wrap"><div class="brand">LEARN • PRACTICE • GROW</div><h1>Study Saathi</h1><p class="sub">CBSE और UP Board · कक्षा 9 और 10 · प्रश्न और आसान समाधान</p></div></header>
+<main>
+<section class="panel">
+<h2>अपनी पढ़ाई चुनें</h2><p class="muted">Board, class और subject चुनकर प्रश्न–उत्तर देखें।</p>
+<div class="controls">
+<div><label for="board">Board</label><select id="board"><option>CBSE</option><option>UP Board</option></select></div>
+<div><label for="class">कक्षा</label><select id="class"><option>9</option><option>10</option></select></div>
+<div><label for="search">प्रश्न खोजें</label><input id="search" placeholder="प्रश्न या chapter लिखें…"></div>
+</div></section>
+<section class="panel"><h2 id="heading">CBSE · कक्षा 9</h2><p class="muted">विषय चुनें। नीचे दिए गए उत्तर अभी नमूने हैं।</p><div class="subjects" id="subjects"></div></section>
+<section class="panel"><h2 id="subjectHeading">विज्ञान</h2><p class="muted">प्रश्न पर टैप करके उत्तर खोलें।</p><div id="questions"></div></section>
+<div class="note"><b>ज़रूरी:</b> यह वेबसाइट का शुरुआती संस्करण है। अभी इसमें demo प्रश्न हैं, पूरे CBSE/UP Board syllabus के सभी answers नहीं। अपने सही chapter-wise solutions जोड़ने के बाद ही इसे छात्रों के साथ साझा करें।</div>
+</main><footer>Study Saathi · © 2026</footer>
+<script>
+const subjects=["विज्ञान","गणित","सामाजिक विज्ञान","अंग्रेज़ी","हिंदी"];
+const demo={
+"विज्ञान":[["पदार्थ किसे कहते हैं?","जिस वस्तु का द्रव्यमान होता है और जो स्थान घेरती है, उसे पदार्थ कहते हैं।"],["कोशिका क्या है?","कोशिका जीवों की संरचनात्मक और क्रियात्मक मूल इकाई है।"]],
+"गणित":[["परिमेय संख्या किसे कहते हैं?","जिस संख्या को p/q के रूप में लिखा जा सके, जहाँ p और q पूर्णांक हों तथा q ≠ 0, वह परिमेय संख्या है।"],["बहुपद क्या है?","चर और अचरों के सीमित पदों से बना बीजीय व्यंजक बहुपद कहलाता है।"]],
+"सामाजिक विज्ञान":[["लोकतंत्र क्या है?","लोकतंत्र शासन की वह व्यवस्था है जिसमें शासकों का चुनाव जनता करती है।"]],
+"अंग्रेज़ी":[["What is a noun?","A noun is the name of a person, place, animal, thing, or idea."]],
+"हिंदी":[["संज्ञा किसे कहते हैं?","किसी व्यक्ति, वस्तु, स्थान या भाव के नाम को संज्ञा कहते हैं।"]]
+};
+let chosen="विज्ञान";
+function render(){
+ const board=document.getElementById("board").value, cls=document.getElementById("class").value;
+ document.getElementById("heading").textContent=board+" · कक्षा "+cls;
+ const s=document.getElementById("subjects");s.innerHTML="";
+ subjects.forEach(name=>{let b=document.createElement("button");b.className="subject"+(name===chosen?" active":"");b.textContent=name;b.onclick=()=>{chosen=name;render()};s.appendChild(b)});
+ document.getElementById("subjectHeading").textContent=chosen+" · "+board+" कक्षा "+cls;
+ const q=document.getElementById("questions");q.innerHTML="";
+ (demo[chosen]||[]).forEach((pair,i)=>{let d=document.createElement("details");d.className="question";let sum=document.createElement("summary");let tag=document.createElement("span");tag.className="tag";tag.textContent="प्रश्न "+(i+1);sum.append(tag,document.createTextNode(pair[0]));let a=document.createElement("div");a.className="answer";a.textContent="उत्तर: "+pair[1];d.append(sum,a);q.append(d)});
+ if(!q.children.length)q.innerHTML='<div class="empty">इस विषय के लिए अभी नमूना प्रश्न नहीं जोड़े गए हैं।</div>';
+ filter();
+}
+function filter(){let v=document.getElementById("search").value.toLowerCase();document.querySelectorAll(".question").forEach(x=>x.style.display=x.textContent.toLowerCase().includes(v)?"":"none")}
+document.getElementById("board").onchange=render;document.getElementById("class").onchange=render;document.getElementById("search").oninput=filter;render();
+</script></body></html>
